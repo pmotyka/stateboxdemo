@@ -1,0 +1,28 @@
+service: stateboxdemo
+provider:
+  name: aws
+  runtime: nodejs8.10
+  logRetentionInDays: 30
+  memorySize: 128
+  timeout: 28
+  tracing: true
+  region: us-east-1
+  environment:
+    DEBUG: "statebox"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+        - "codedeploy:*"
+        - "lambda:InvokeFunction"
+        - "lambda:InvokeAsync"
+      Resource:
+          - "*"
+functions:
+    statebox:
+        handler: handler.stateboxdemo
+    hello1:
+        handler: handler.hello1
+    hello2:
+        handler: handler.hello2
